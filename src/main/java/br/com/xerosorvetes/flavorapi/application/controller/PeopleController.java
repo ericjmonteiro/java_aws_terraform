@@ -5,6 +5,7 @@ import br.com.xerosorvetes.flavorapi.domain.service.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,8 +37,8 @@ public class PeopleController {
     return service.update(dto);
   }
 
-  @DeleteMapping
-  public Mono<Void> delete(final String id) {
+  @DeleteMapping("{id}")
+  public Mono<Void> delete(@PathVariable final String id) {
     return service.delete(id);
   }
 }

@@ -1,5 +1,6 @@
 package br.com.xerosorvetes.flavorapi.domain.service;
 
+import br.com.xerosorvetes.flavorapi.application.exception.PeopleNotFoundException;
 import br.com.xerosorvetes.flavorapi.domain.dto.PeopleDto;
 import br.com.xerosorvetes.flavorapi.infrasctructure.database.entity.PeopleEntity;
 import br.com.xerosorvetes.flavorapi.infrasctructure.database.repository.PeopleRepository;
@@ -20,9 +21,13 @@ public class PeopleService {
     return PeopleDto.builder().id(people.getId()).name(people.getName()).build();
   }
 
+  private static PeopleEntity applyEntity(PeopleDto dto) {
+    return PeopleEntity.builder().id(dto.getId()).name(dto.getName()).build();
+  }
+
   public Mono<PeopleDto> save(PeopleDto dto) {
 
-    PeopleEntity entity = PeopleEntity.builder().name(dto.getName()).build();
+    PeopleEntity entity = PeopleEntity.builder().id(dto.getId()).name(dto.getName()).build();
     return this.repository.save(entity).map(PeopleService::apply);
   }
 
@@ -36,11 +41,13 @@ public class PeopleService {
       throw new IllegalArgumentException("Field id is not null");
     }
 
-    this.repository.findById(dto.getId())
-        .switchIfEmpty(Mono.error(new IllegalArgumentException("Não foi possivel localizar id")));
-
-    return this.repository.save(PeopleEntity.builder().id(dto.getId()).name(dto.getName()).build())
-        .map(PeopleService::apply);
+    return repository.findById(dto.getId())
+        .switchIfEmpty(Mono.error(new PeopleNotFoundException(dto.getId())))
+        .flatMap(peopleEntity -> {
+          peopleEntity.setName(dto.getName());
+          repository.save(peopleEntity);
+          return Mono.just(apply(peopleEntity));
+        });
   }
 
   public Mono<Void> delete(String id) {
