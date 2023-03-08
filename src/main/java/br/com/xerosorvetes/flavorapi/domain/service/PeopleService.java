@@ -5,6 +5,7 @@ import br.com.xerosorvetes.flavorapi.domain.dto.PeopleDto;
 import br.com.xerosorvetes.flavorapi.infrasctructure.database.entity.PeopleEntity;
 import br.com.xerosorvetes.flavorapi.infrasctructure.database.repository.PeopleRepository;
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
+@Slf4j
 public class PeopleService {
 
   @Autowired
@@ -19,10 +21,6 @@ public class PeopleService {
 
   private static PeopleDto apply(PeopleEntity people) {
     return PeopleDto.builder().id(people.getId()).name(people.getName()).build();
-  }
-
-  private static PeopleEntity applyEntity(PeopleDto dto) {
-    return PeopleEntity.builder().id(dto.getId()).name(dto.getName()).build();
   }
 
   public Mono<PeopleDto> save(PeopleDto dto) {
@@ -62,6 +60,7 @@ public class PeopleService {
 
 
   public Flux<PeopleDto> findAll() {
+    log.info("Search all people");
     return this.repository.findAll().switchIfEmpty(Flux.empty()).map(PeopleService::apply);
   }
 }
