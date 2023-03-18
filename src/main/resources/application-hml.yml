@@ -1,0 +1,12 @@
+server:
+  port : 8085
+  servlet:
+    context-path: /flavor-api
+
+  config:
+    activated:
+      on-profile: hml
+
+logging:
+  level:
+    root: INFO
