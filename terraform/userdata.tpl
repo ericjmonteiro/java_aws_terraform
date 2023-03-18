@@ -30,7 +30,7 @@
     cd flavor-api
     git checkout master
     git pull
-    cd deploy/docker
+    cd docker
 
 #run your docker compose file
     docker-compose -f docker-compose-hml.yml up -d

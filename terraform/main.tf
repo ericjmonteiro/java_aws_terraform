@@ -52,6 +52,7 @@ resource "aws_instance" "flavor_ec2" {
   vpc_security_group_ids = [aws_security_group.flavor_sg.id]
   subnet_id              = aws_subnet.flavor_subnet_1.id
   ami                    = data.aws_ami.flavor_ami.id
+  user_data              = file("userdata.tpl")
 
   root_block_device {
     volume_size = 8
