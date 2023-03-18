@@ -33,4 +33,4 @@
     cd docker
 
 #run your docker compose file
-    docker-compose -f docker-compose-hml.yml up -d
+    docker-compose -f docker-compose-dev.yml up -d
