@@ -6,7 +6,7 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://admin:password@10.0.0.0:27017/test?authSource=admin&retryWrites=true&w=majority
+      uri: mongodb://admin:password@10.0.1.115:27017/test?authSource=admin&retryWrites=true&w=majority
 
   config:
     activated:
