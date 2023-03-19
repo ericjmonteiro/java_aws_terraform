@@ -8,7 +8,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: password
     networks:
-      - mongo-compose-network
+      - docker-network
 
   mongo-express:
     image: mongo-express
@@ -23,11 +23,11 @@ services:
       ME_CONFIG_MONGODB_SERVER: mongo
       ME_CONFIG_MONGODB_PORT: 27017
     networks:
-      - mongo-compose-network
+      - docker-network
 
   flavor-api:
     container_name: flavor-api
-    image: ericjmonteiro/flavor-api:latest
+    image: flavor-api:0.0.1-SNAPSHOT
     ports:
       - 8083:8083
     environment:
@@ -35,6 +35,15 @@ services:
       TZ: "America/São Paulo"
     depends_on:
       - mongo
+    networks:
+      - docker-network
+    deploy:
+      resources:
+        limits:
+          memory: 700M
+        reservations:
+          memory: 700M
+    restart: always
 
 networks:
   mongo-compose-network:
