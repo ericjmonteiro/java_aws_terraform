@@ -27,7 +27,7 @@
 
 #clone your project from git repository
     git clone https://github.com/ericjmonteiro/java_aws_terraform.git
-    cd flavor-api
+    cd java_aws_terraform
     git checkout main
     git pull
     cd docker
