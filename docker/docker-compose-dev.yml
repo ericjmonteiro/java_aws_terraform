@@ -46,5 +46,5 @@ services:
     restart: always
 
 networks:
-  mongo-compose-network:
+  docker-network:
     driver: bridge
